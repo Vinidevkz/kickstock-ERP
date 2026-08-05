@@ -7,8 +7,12 @@ import com.erp.kicksotck.repositories.EmpresaRepository;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.Token;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.security.auth.login.AccountNotFoundException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,25 @@ public class EmpresaService {
     }
 
     //login
+    public EmpresaResponseDTO loginCompany(String email, String password) throws AccountNotFoundException {
+        Optional<Empresa> opEmpresa = empresaRepository.findByEmail_empresa(email);
+
+        if(opEmpresa.isEmpty()){
+            throw new AccountNotFoundException("Empresa são encontrada.");
+        }
+
+        Empresa empresa = opEmpresa.get();
+
+        boolean isPasswordValid = passwordEncoder.matches(password, empresa.getPassword_empresa());
+
+        if(!isPasswordValid){
+            throw new BadCredentialsException("Senha inválida.");
+        }
+
+        String token = tokenProvider.buildToken(empresa.getEmail_empresa());
+
+        return new EmpresaResponseDTO(empresa.getId(), empresa.getNome_empresa(), empresa.getCnpj_empresa(), empresa.getEmail_empresa(), token, empresa.getCreated_at());
+    }
 
 
     //update
