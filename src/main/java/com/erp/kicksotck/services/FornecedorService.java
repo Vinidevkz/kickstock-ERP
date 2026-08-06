@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +31,8 @@ public class FornecedorService {
         fornecedor.setNome_fornecedor(fornecedorDTO.nome_fornecedor());
         fornecedor.setEmail(fornecedorDTO.email_fornecedor());
         fornecedor.setCnpj_fornecedor(fornecedorDTO.cnpj_fornecedor());
+        fornecedor.setCreated_at(LocalDateTime.now());
+
         //email is subject
         String token = tokenProvider.buildToken(fornecedorDTO.email_fornecedor());
         String password = passwordEncoder.encode(fornecedorDTO.password_fornecedor());

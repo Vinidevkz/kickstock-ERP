@@ -8,15 +8,14 @@ import com.erp.kicksotck.repositories.EmpresaRepository;
 import com.erp.kicksotck.repositories.FornecedorRepository;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.erp.kicksotck.exceptions.BadCredentialsException;
 
-
 import javax.security.auth.login.AccountNotFoundException;
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +34,12 @@ public class EmpresaService {
         newEmpresa.setNome_empresa(empresaDTO.nome_empresa());
         newEmpresa.setEmail(empresaDTO.email_empresa());
         newEmpresa.setCnpj_empresa(empresaDTO.cnpj_empresa());
+        newEmpresa.setCreated_at(LocalDateTime.now());
         //email is subject
         String token = tokenProvider.buildToken(empresaDTO.email_empresa());
 
         newEmpresa.setPassword_empresa(passwordEncoder.encode(empresaDTO.password_empresa()));
+
 
         Empresa empresa = empresaRepository.save(newEmpresa);
 
@@ -64,9 +65,9 @@ public class EmpresaService {
     //delete
 
     //requisição de contrato
-    public void solicitarContrato(String emailEmpresa, String emailFornecedor) throws AccountNotFoundException {
-        Empresa empresa = empresaRepository.findByEmail(emailEmpresa).orElseThrow(AccountNotFoundException::new);
-        Fornecedor fornecedor = fornecedorRepository.findByEmail(emailFornecedor).orElseThrow(AccountNotFoundException::new);
+    public void solicitarContrato(UUID idEmpresa, UUID idFornecedor) throws AccountNotFoundException {
+        Empresa empresa = empresaRepository.findById(idEmpresa).orElseThrow(AccountNotFoundException::new);
+        Fornecedor fornecedor = fornecedorRepository.findById(idFornecedor).orElseThrow(AccountNotFoundException::new);
 
         contratoService.solicitacaoContrato(empresa, fornecedor);
     }

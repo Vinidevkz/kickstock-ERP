@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/fornecedor")
+@RequestMapping("/v1/fornecedor")
 @RequiredArgsConstructor
 public class FornecedorController {
 
     private final FornecedorService fornecedorService;
 
     //register
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<FornecedorResponseDTO> registerFornecedor(@RequestBody @Valid FornecedorDTO fornecedorDTO){
         FornecedorResponseDTO fornecedorResponseDTO = fornecedorService.registerFornecedor(fornecedorDTO);
 

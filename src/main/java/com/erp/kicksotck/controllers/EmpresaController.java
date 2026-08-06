@@ -19,7 +19,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/empresa")
+@RequestMapping("/v1/empresa")
 @RequiredArgsConstructor
 public class EmpresaController {
 
@@ -44,4 +44,8 @@ public class EmpresaController {
     //update
     //put
     //delete
+
+    //requisição de contrato
+    @PostMapping("/requisicao_de_contrato")
+    public ResponseEntity<>
 }
