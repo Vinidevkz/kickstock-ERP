@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class FornecedorService {
     private final FornecedorRepository fornecedorRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final ContratoService contratoService;
 
     //register
     public FornecedorResponseDTO registerFornecedor(FornecedorDTO fornecedorDTO){
@@ -56,4 +58,9 @@ public class FornecedorService {
     //update
     //put
     //delete
+
+    //aceitar solicitacao
+    public void aceitarSolicitacao(UUID idContrato) throws AccountNotFoundException {
+        contratoService.aceitarSolicitacao(idContrato);
+    }
 }

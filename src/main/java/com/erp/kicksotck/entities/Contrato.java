@@ -1,5 +1,6 @@
 package com.erp.kicksotck.entities;
 
+import com.erp.kicksotck.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class Contrato {
     @JoinColumn(name = "fornecedor")
     private Fornecedor id_fornecedor;
     private LocalDate data_encerramento;
+    private Status status_contrato;
     private String codigo_contrato;
     private LocalDateTime created_at;
 

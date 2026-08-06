@@ -30,6 +30,7 @@ public class Lote {
     private String descricao_produto;
     private LocalDate validade_produto;
     private Integer quantidade_por_lote;
+    @Column(unique = true)
     private String codigo_lote;
     private LocalDateTime created_at;
 

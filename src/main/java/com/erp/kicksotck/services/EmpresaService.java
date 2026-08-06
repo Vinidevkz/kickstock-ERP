@@ -3,7 +3,9 @@ package com.erp.kicksotck.services;
 import com.erp.kicksotck.config.TokenProvider;
 import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.entities.Empresa;
+import com.erp.kicksotck.entities.Fornecedor;
 import com.erp.kicksotck.repositories.EmpresaRepository;
+import com.erp.kicksotck.repositories.FornecedorRepository;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.Token;
@@ -14,6 +16,7 @@ import com.erp.kicksotck.exceptions.BadCredentialsException;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class EmpresaService {
     private final EmpresaRepository empresaRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final ContratoService contratoService;
+    private final FornecedorRepository fornecedorRepository;
 
     //register
     public EmpresaResponseDTO registerCompany(EmpresaDTO empresaDTO){
@@ -54,13 +59,17 @@ public class EmpresaService {
 
         return new EmpresaResponseDTO(empresa, token);
     }
-
-
     //update
-
     //put
-
     //delete
+
+    //requisição de contrato
+    public void solicitarContrato(String emailEmpresa, String emailFornecedor) throws AccountNotFoundException {
+        Empresa empresa = empresaRepository.findByEmail(emailEmpresa).orElseThrow(AccountNotFoundException::new);
+        Fornecedor fornecedor = fornecedorRepository.findByEmail(emailFornecedor).orElseThrow(AccountNotFoundException::new);
+
+        contratoService.solicitacaoContrato(empresa, fornecedor);
+    }
 
 
 

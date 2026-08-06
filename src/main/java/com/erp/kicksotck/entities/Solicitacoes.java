@@ -1,6 +1,6 @@
 package com.erp.kicksotck.entities;
 
-import com.erp.kicksotck.enums.StatusSolicitacao;
+import com.erp.kicksotck.enums.Status;
 import com.erp.kicksotck.enums.TipoSolicitacao;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +27,7 @@ public class Solicitacoes {
     @JoinColumn(name = "fornecedor")
     private Fornecedor id_fornecedor;
     private TipoSolicitacao tipoSolicitacao;
-    private StatusSolicitacao statusSolicitacao;
+    private Status status;
     private LocalDateTime created_at;
 
 }
