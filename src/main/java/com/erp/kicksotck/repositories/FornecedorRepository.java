@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface FornecedorRepository extends JpaRepository<Fornecedor, UUID> {
 
-    Optional<Fornecedor> findByEmail_fornecedor(String email);
+    Optional<Fornecedor> findByEmail(String email);
 }

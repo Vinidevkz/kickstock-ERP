@@ -18,7 +18,7 @@ public record EmpresaResponseDTO(
                 empresa.getId(),
                 empresa.getNome_empresa(),
                 empresa.getCnpj_empresa(),
-                empresa.getEmail_empresa(),
+                empresa.getEmail(),
                 token,
                 empresa.getCreated_at()
         );

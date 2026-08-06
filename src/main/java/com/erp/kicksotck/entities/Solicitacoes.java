@@ -1,21 +1,21 @@
 package com.erp.kicksotck.entities;
 
+import com.erp.kicksotck.enums.StatusSolicitacao;
+import com.erp.kicksotck.enums.TipoSolicitacao;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_contratos")
+@Table(name = "tb_solicitacoes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Contrato {
+public class Solicitacoes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,9 +26,8 @@ public class Contrato {
     @ManyToOne
     @JoinColumn(name = "fornecedor")
     private Fornecedor id_fornecedor;
-    private LocalDate data_encerramento;
-    private String codigo_contrato;
+    private TipoSolicitacao tipoSolicitacao;
+    private StatusSolicitacao statusSolicitacao;
     private LocalDateTime created_at;
-
 
 }

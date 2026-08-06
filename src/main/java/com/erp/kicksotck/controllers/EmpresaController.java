@@ -19,27 +19,22 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/empresa")
 @RequiredArgsConstructor
 public class EmpresaController {
 
     private final EmpresaService empresaService;
 
     //register
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<EmpresaResponseDTO> registerCompany(@RequestBody @Valid EmpresaDTO empresaDTO){
         EmpresaResponseDTO newEmpresa = empresaService.registerCompany(empresaDTO);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newEmpresa.id())
-                .toUri();
-
-        return ResponseEntity.created(uri).body(newEmpresa);
+        return ResponseEntity.status(201).body(newEmpresa);
     }
 
     //login
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<EmpresaResponseDTO> loginCompany(@RequestBody @Valid LoginDTO loginDTO) throws AccountNotFoundException {
         EmpresaResponseDTO empresaResponseDTO = empresaService.loginCompany(loginDTO.email(), loginDTO.password());
 

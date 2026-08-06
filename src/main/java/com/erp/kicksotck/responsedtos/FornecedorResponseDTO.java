@@ -19,7 +19,7 @@ public FornecedorResponseDTO(Fornecedor fornecedor, String token){
             fornecedor.getId(),
             fornecedor.getNome_fornecedor(),
             fornecedor.getCnpj_fornecedor(),
-            fornecedor.getEmail_fornecedor(),
+            fornecedor.getEmail(),
             token,
             fornecedor.getCreated_at()
     );

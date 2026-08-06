@@ -28,7 +28,7 @@ public class EmpresaService {
 
         Empresa newEmpresa=  new Empresa();
         newEmpresa.setNome_empresa(empresaDTO.nome_empresa());
-        newEmpresa.setEmail_empresa(empresaDTO.email_empresa());
+        newEmpresa.setEmail(empresaDTO.email_empresa());
         newEmpresa.setCnpj_empresa(empresaDTO.cnpj_empresa());
         //email is subject
         String token = tokenProvider.buildToken(empresaDTO.email_empresa());
@@ -42,7 +42,7 @@ public class EmpresaService {
 
     //login
     public EmpresaResponseDTO loginCompany(String email, String password) throws AccountNotFoundException {
-        Empresa empresa = empresaRepository.findByEmail_empresa(email).orElseThrow(BadCredentialsException::new);
+        Empresa empresa = empresaRepository.findByEmail(email).orElseThrow(BadCredentialsException::new);
 
         boolean isPasswordValid = passwordEncoder.matches(password, empresa.getPassword_empresa());
 
@@ -50,7 +50,7 @@ public class EmpresaService {
             throw new BadCredentialsException();
         }
 
-        String token = tokenProvider.buildToken(empresa.getEmail_empresa());
+        String token = tokenProvider.buildToken(empresa.getEmail());
 
         return new EmpresaResponseDTO(empresa, token);
     }

@@ -22,10 +22,10 @@ public class Lote {
     private UUID id;
     @ManyToOne
     @JoinColumn(name = "id_empresa")
-    private Empresa empresa;
+    private Empresa id_empresa;
     @ManyToOne
     @JoinColumn(name = "id_fornecedor")
-    private Fornecedor fornecedor;
+    private Fornecedor id_fornecedor;
     private String nome_produto;
     private String descricao_produto;
     private LocalDate validade_produto;

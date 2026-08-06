@@ -26,7 +26,7 @@ public class FornecedorService {
         Fornecedor fornecedor = new Fornecedor();
 
         fornecedor.setNome_fornecedor(fornecedorDTO.nome_fornecedor());
-        fornecedor.setEmail_fornecedor(fornecedorDTO.email_fornecedor());
+        fornecedor.setEmail(fornecedorDTO.email_fornecedor());
         fornecedor.setCnpj_fornecedor(fornecedorDTO.cnpj_fornecedor());
         //email is subject
         String token = tokenProvider.buildToken(fornecedorDTO.email_fornecedor());
@@ -41,7 +41,7 @@ public class FornecedorService {
 
     //login
     public FornecedorResponseDTO loginFornecedor(String email, String password) throws AccountNotFoundException {
-        Fornecedor fornecedor = fornecedorRepository.findByEmail_fornecedor(email).orElseThrow(BadCredentialsException::new);
+        Fornecedor fornecedor = fornecedorRepository.findByEmail(email).orElseThrow(BadCredentialsException::new);
 
         Boolean isPasswordValid = passwordEncoder.matches(password, fornecedor.getPassword_fornecedor());
 
@@ -49,7 +49,7 @@ public class FornecedorService {
             throw new BadCredentialsException();
         }
 
-        String token = tokenProvider.buildToken(fornecedor.getEmail_fornecedor());
+        String token = tokenProvider.buildToken(fornecedor.getEmail());
 
         return new FornecedorResponseDTO(fornecedor, token);
     }

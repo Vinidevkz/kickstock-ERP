@@ -3,19 +3,17 @@ package com.erp.kicksotck.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_contratos")
+@Table(name = "tb_vendas_e_compras")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Contrato {
+public class VendasECompras {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,9 +24,10 @@ public class Contrato {
     @ManyToOne
     @JoinColumn(name = "fornecedor")
     private Fornecedor id_fornecedor;
-    private LocalDate data_encerramento;
-    private String codigo_contrato;
-    private LocalDateTime created_at;
+    private String nome_produto;
+    private String descricao_produto;
+    private LocalDateTime data_e_hora_da_compra;
+
 
 
 }
