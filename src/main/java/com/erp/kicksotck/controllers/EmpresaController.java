@@ -1,14 +1,18 @@
 package com.erp.kicksotck.controllers;
 
+import com.erp.kicksotck.dtos.ContratoDTO;
 import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.dtos.LoginDTO;
+import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
+import com.erp.kicksotck.services.ContratoService;
 import com.erp.kicksotck.services.EmpresaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/empresa")
@@ -24,6 +29,7 @@ import java.net.URI;
 public class EmpresaController {
 
     private final EmpresaService empresaService;
+    private final ContratoService contratoService;
 
     //register
     @PostMapping("/auth/register")
@@ -47,5 +53,15 @@ public class EmpresaController {
 
     //requisição de contrato
     @PostMapping("/requisicao_de_contrato")
-    public ResponseEntity<>
+    public ResponseEntity<String> requisitarContrato(@RequestBody @Valid ContratoDTO contratoDTO, Authentication authentication) throws AccountNotFoundException {
+
+        String emailEmpresa = authentication.getName();
+
+        System.out.println("Buscando empresa com o email: [" + emailEmpresa + "]");
+
+        empresaService.solicitarContrato(emailEmpresa, contratoDTO.id_fornecedor(), contratoDTO.data_encerramento());
+
+        return ResponseEntity.ok().body("Solicitação criada com sucesso. Aguarde a resposta do fornecedor.");
+
+    }
 }

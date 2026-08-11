@@ -28,6 +28,8 @@ public class Contrato {
     @JoinColumn(name = "fornecedor")
     private Fornecedor id_fornecedor;
     private LocalDate data_encerramento;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_contrato")
     private Status status_contrato;
     private String codigo_contrato;
     private LocalDateTime created_at;

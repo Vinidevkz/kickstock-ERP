@@ -55,7 +55,7 @@ public class Empresa implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return this.email;
     }
 
     @Override
