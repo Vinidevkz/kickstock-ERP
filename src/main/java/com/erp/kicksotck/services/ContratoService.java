@@ -11,9 +11,11 @@ import com.erp.kicksotck.tools.CodeBase64Generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,7 +35,12 @@ public class ContratoService {
 
 
     //solicitação da empresa
-    public void solicitacaoContrato(Empresa empresa, Fornecedor fornecedor, LocalDate data_encerramento) throws AccountNotFoundException {
+    public void solicitacaoContrato(Empresa empresa, Fornecedor fornecedor, LocalDate data_encerramento) throws AccountNotFoundException, InstanceAlreadyExistsException {
+        boolean existsByIdEmpresaAndIdFornecedor = contratoRepository.existsByEmpresaEFornecedor(empresa, fornecedor);
+
+        if(existsByIdEmpresaAndIdFornecedor){
+            throw new InstanceAlreadyExistsException("A empresa já possui um contrato em aberto com o respectivo fornecedor.");
+        }
 
         Contrato contrato = new Contrato();
         contrato.setId_empresa(empresa);

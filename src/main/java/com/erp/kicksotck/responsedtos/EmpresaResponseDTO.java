@@ -8,8 +8,8 @@ import java.util.UUID;
 public record EmpresaResponseDTO(
         UUID id,
         String nomeEmpresa,
-        String cnpj,
         String email,
+        String cnpj,
         String token,
         LocalDateTime created_at
 ) {
@@ -17,8 +17,8 @@ public record EmpresaResponseDTO(
         this(
                 empresa.getId(),
                 empresa.getNome_empresa(),
-                empresa.getCnpj_empresa(),
                 empresa.getEmail(),
+                empresa.getCnpj_empresa(),
                 token,
                 empresa.getCreated_at()
         );

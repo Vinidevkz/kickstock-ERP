@@ -1,5 +1,6 @@
 package com.erp.kicksotck.services;
 
+import com.erp.kicksotck.dtos.SolicitacaoDTO;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.entities.Fornecedor;
 import com.erp.kicksotck.entities.Lote;
@@ -8,7 +9,9 @@ import com.erp.kicksotck.enums.Status;
 import com.erp.kicksotck.enums.TipoSolicitacao;
 import com.erp.kicksotck.repositories.EmpresaRepository;
 import com.erp.kicksotck.repositories.FornecedorRepository;
+import com.erp.kicksotck.repositories.LoteRepository;
 import com.erp.kicksotck.repositories.SolicitacaoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,20 +28,32 @@ public class SolicitacoesService {
     private final SolicitacaoRepository solicitacaoRepository;
     private final EmpresaRepository empresaRepository;
     private final FornecedorRepository fornecedorRepository;
+    private final LoteRepository loteRepository;
 
     //criar solicitacao
-    public void criarSolicitacao(UUID idEmpresa, UUID idFornecedor, String tipo_solicitacao, LocalDate data_compra) throws AccountException {
+    @Transactional
+    public void criarSolicitacao(SolicitacaoDTO solicitacaoDTO) throws AccountException {
 
-        Empresa empresa = empresaRepository.findById(idEmpresa).orElseThrow(AccountException::new);
-        Fornecedor fornecedor = fornecedorRepository.findById(idFornecedor).orElseThrow(AccountException::new);
+        Empresa empresa = empresaRepository.findById(solicitacaoDTO.idEmpresa()).orElseThrow(AccountException::new);
+        Fornecedor fornecedor = fornecedorRepository.findById(solicitacaoDTO.idFornecedor()).orElseThrow(AccountException::new);
 
         Solicitacoes solicitacao = new Solicitacoes();
         solicitacao.setId_empresa(empresa);
         solicitacao.setId_fornecedor(fornecedor);
-        solicitacao.setTipo_solicitacao(TipoSolicitacao.valueOf(tipo_solicitacao));
-        solicitacao.setData_compra(data_compra);
-        solicitacao.setStatus(Status.AGUARDANDO);
+        solicitacao.setTipo_solicitacao(TipoSolicitacao.valueOf(solicitacaoDTO.tipo_solicitacao()));
+        solicitacao.setData_compra(solicitacaoDTO.data_compra());
+        solicitacao.setStatus(Status.valueOf("AGUARDANDO"));
         solicitacao.setCreated_at(LocalDateTime.now());
+
+        if(solicitacaoDTO.idsLotes() != null && !solicitacaoDTO.idsLotes().isEmpty()){
+            List<Lote> lotes = loteRepository.findAllById(solicitacaoDTO.idsLotes());
+
+            if(lotes.size() != solicitacaoDTO.idsLotes().size()){
+                throw new IllegalArgumentException("Um dos lotes informados não existe no sistema.");
+            }
+
+            solicitacao.setLotes(lotes);
+        }
 
         solicitacaoRepository.save(solicitacao);
 

@@ -49,4 +49,6 @@ public class FornecedorController {
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+    //aceitar
 }

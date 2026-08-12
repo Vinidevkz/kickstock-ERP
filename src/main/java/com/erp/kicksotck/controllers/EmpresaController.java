@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.security.auth.login.AccountException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
 import java.util.UUID;
@@ -55,23 +57,22 @@ public class EmpresaController {
 
     //requisição de contrato
     @PostMapping("/requisicao_de_contrato")
-    public ResponseEntity<String> requisitarContrato(@RequestBody @Valid ContratoDTO contratoDTO, Authentication authentication) throws AccountNotFoundException {
+    public ResponseEntity<HttpStatus> requisitarContrato(@RequestBody @Valid ContratoDTO contratoDTO, Authentication authentication) throws AccountNotFoundException, InstanceAlreadyExistsException {
 
         String emailEmpresa = authentication.getName();
 
-        System.out.println("Buscando empresa com o email: [" + emailEmpresa + "]");
-
         empresaService.solicitarContrato(emailEmpresa, contratoDTO.id_fornecedor(), contratoDTO.data_encerramento());
 
-        return ResponseEntity.ok().body("Solicitação de contrato criada com sucesso. Aguarde a resposta do fornecedor.");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
     //requisicão de lote (fazer solicitação)
     @PostMapping("/solicitacao")
-    public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO, Authentication authentication){
+    public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO) throws AccountException {
 
-        solicitacoesService.criarSolicitacao(solicitacaoDTO.idEmpresa(), solicitacaoDTO.idFornecedor(), solicitacaoDTO.tipo_solicitacao(), solicitacaoDTO.data_compra());
+        solicitacoesService.criarSolicitacao(solicitacaoDTO);
 
+        return ResponseEntity.ok().build();
     }
 }

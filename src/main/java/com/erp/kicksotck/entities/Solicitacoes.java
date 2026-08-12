@@ -45,4 +45,8 @@ public class Solicitacoes {
     private Status status;
     private LocalDateTime created_at;
 
+    public void addLote(Lote lote) {
+        this.lotes.add(lote);
+    }
+
 }

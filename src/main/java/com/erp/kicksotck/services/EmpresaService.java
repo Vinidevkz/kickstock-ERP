@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.erp.kicksotck.exceptions.BadCredentialsException;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,7 +66,7 @@ public class EmpresaService {
     //delete
 
     //requisição de contrato
-    public void solicitarContrato(String emailEmpresa, UUID idFornecedor, LocalDate data_encerramento) throws AccountNotFoundException {
+    public void solicitarContrato(String emailEmpresa, UUID idFornecedor, LocalDate data_encerramento) throws AccountNotFoundException, InstanceAlreadyExistsException {
 
         Empresa empresa = empresaRepository.findByEmail(emailEmpresa)
                 .orElseThrow(() -> new AccountNotFoundException("Empresa não encontrada para o e-mail: " + emailEmpresa));

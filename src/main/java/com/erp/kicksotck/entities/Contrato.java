@@ -22,10 +22,10 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @ManyToOne
-    @JoinColumn(name = "empresa")
+    @JoinColumn(name = "id_empresa")
     private Empresa id_empresa;
     @ManyToOne
-    @JoinColumn(name = "fornecedor")
+    @JoinColumn(name = "id_fornecedor")
     private Fornecedor id_fornecedor;
     private LocalDate data_encerramento;
     @Enumerated(EnumType.STRING)
