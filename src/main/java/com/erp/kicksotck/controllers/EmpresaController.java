@@ -3,10 +3,12 @@ package com.erp.kicksotck.controllers;
 import com.erp.kicksotck.dtos.ContratoDTO;
 import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.dtos.LoginDTO;
+import com.erp.kicksotck.dtos.SolicitacaoDTO;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import com.erp.kicksotck.services.ContratoService;
 import com.erp.kicksotck.services.EmpresaService;
+import com.erp.kicksotck.services.SolicitacoesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,7 @@ import java.util.UUID;
 public class EmpresaController {
 
     private final EmpresaService empresaService;
-    private final ContratoService contratoService;
+    private final SolicitacoesService solicitacoesService;
 
     //register
     @PostMapping("/auth/register")
@@ -61,7 +63,15 @@ public class EmpresaController {
 
         empresaService.solicitarContrato(emailEmpresa, contratoDTO.id_fornecedor(), contratoDTO.data_encerramento());
 
-        return ResponseEntity.ok().body("Solicitação criada com sucesso. Aguarde a resposta do fornecedor.");
+        return ResponseEntity.ok().body("Solicitação de contrato criada com sucesso. Aguarde a resposta do fornecedor.");
+
+    }
+
+    //requisicão de lote (fazer solicitação)
+    @PostMapping("/solicitacao")
+    public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO, Authentication authentication){
+
+        solicitacoesService.criarSolicitacao(solicitacaoDTO.idEmpresa(), solicitacaoDTO.idFornecedor(), solicitacaoDTO.tipo_solicitacao(), solicitacaoDTO.data_compra());
 
     }
 }
