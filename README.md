@@ -1,9 +1,9 @@
 
-# Kickstock ERP - Backend
+# 📦 Kickstock - ERP & Gestão de Estoque B2B
 
-Gerenciador de estoque e lotes que relaciona fornecedores, empresas e contratos entre elas. O foco do sistema é agilizar a transação de informação e na praticidade entre venda e compra de produtos.
+**Kickstock** é uma plataforma de gestão de estoque, lotes e relacionamentos B2B projetada para otimizar a comunicação e o fluxo de transações entre empresas e fornecedores.
 
-As empresas podem criar contratos com fornecedores e, a partir deles, solicitar a compra de lotes de produtos. As empresas podem dar baixa no estoque 
+O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o ciclo de suprimentos — desde a formalização de contratos até a movimentação real de produtos. Através do Kickstock, as empresas podem estabelecer vínculos contratuais com fornecedores, realizar agendamentos e solicitações de reserva de lotes e manter um controle preciso de entrada e baixa de estoque de forma automatizada.
 
 
 
