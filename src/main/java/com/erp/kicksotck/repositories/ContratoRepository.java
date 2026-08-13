@@ -7,11 +7,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ContratoRepository extends JpaRepository<Contrato, UUID> {
     @Query("SELECT COUNT(c) > 0 FROM Contrato c WHERE c.id_empresa = :empresa AND c.id_fornecedor = :fornecedor")
     boolean existsByEmpresaEFornecedor(
+            @Param("empresa") Empresa empresa,
+            @Param("fornecedor") Fornecedor fornecedor
+    );
+
+    @Query("SELECT c FROM Contrato c WHERE c.id_empresa = :empresa AND c.id_fornecedor = :fornecedor")
+    Optional<Contrato> findByEmpresaEFornecedor(
             @Param("empresa") Empresa empresa,
             @Param("fornecedor") Fornecedor fornecedor
     );

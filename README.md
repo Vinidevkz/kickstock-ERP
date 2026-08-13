@@ -3,6 +3,9 @@
 
 Gerenciador de estoque e lotes que relaciona fornecedores, empresas e contratos entre elas. O foco do sistema é agilizar a transação de informação e na praticidade entre venda e compra de produtos.
 
+As empresas podem criar contratos com fornecedores e, a partir deles, solicitar a compra de lotes de produtos. As empresas podem dar baixa no estoque 
+
+
 
 ## Tecnologias utilizadas e Ferramentas
 

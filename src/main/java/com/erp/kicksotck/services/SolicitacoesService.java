@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountException;
-import java.time.LocalDate;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -29,13 +29,19 @@ public class SolicitacoesService {
     private final EmpresaRepository empresaRepository;
     private final FornecedorRepository fornecedorRepository;
     private final LoteRepository loteRepository;
+    private final ContratoService contratoService;
 
     //criar solicitacao
     @Transactional
-    public void criarSolicitacao(SolicitacaoDTO solicitacaoDTO) throws AccountException {
+    public void criarSolicitacao(SolicitacaoDTO solicitacaoDTO) throws AccountException, FileAlreadyExistsException {
 
         Empresa empresa = empresaRepository.findById(solicitacaoDTO.idEmpresa()).orElseThrow(AccountException::new);
         Fornecedor fornecedor = fornecedorRepository.findById(solicitacaoDTO.idFornecedor()).orElseThrow(AccountException::new);
+
+        if(!contratoService.verificarContratoExistente(empresa, fornecedor)){
+            throw new FileAlreadyExistsException("Contrato ainda em análise. Solicitações só são possíveis com contratos já em vigor.");
+        }
+
 
         Solicitacoes solicitacao = new Solicitacoes();
         solicitacao.setId_empresa(empresa);
@@ -44,6 +50,7 @@ public class SolicitacoesService {
         solicitacao.setData_compra(solicitacaoDTO.data_compra());
         solicitacao.setStatus(Status.valueOf("AGUARDANDO"));
         solicitacao.setCreated_at(LocalDateTime.now());
+        solicitacao.setQuantidade_lote(solicitacaoDTO.quantidade_lote());
 
         if(solicitacaoDTO.idsLotes() != null && !solicitacaoDTO.idsLotes().isEmpty()){
             List<Lote> lotes = loteRepository.findAllById(solicitacaoDTO.idsLotes());
@@ -72,7 +79,6 @@ public class SolicitacoesService {
         }
 
         solicitacaoRepository.save(solicitacao);
-
 
     }
 

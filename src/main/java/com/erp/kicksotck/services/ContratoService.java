@@ -9,6 +9,7 @@ import com.erp.kicksotck.repositories.EmpresaRepository;
 import com.erp.kicksotck.repositories.FornecedorRepository;
 import com.erp.kicksotck.tools.CodeBase64Generator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -35,7 +36,7 @@ public class ContratoService {
 
 
     //solicitação da empresa
-    public void solicitacaoContrato(Empresa empresa, Fornecedor fornecedor, LocalDate data_encerramento) throws AccountNotFoundException, InstanceAlreadyExistsException {
+    public void solicitacaoContrato(Empresa empresa, Fornecedor fornecedor, LocalDate data_encerramento) throws InstanceAlreadyExistsException {
         boolean existsByIdEmpresaAndIdFornecedor = contratoRepository.existsByEmpresaEFornecedor(empresa, fornecedor);
 
         if(existsByIdEmpresaAndIdFornecedor){
@@ -61,6 +62,17 @@ public class ContratoService {
         contrato.setStatus_contrato(Status.ACEITO);
 
         contratoRepository.save(contrato);
+    }
+
+    //verifica se a empresa já possui um contrato com o fornecedor
+    public boolean verificarContratoExistente(Empresa empresa, Fornecedor fornecedor) throws AccountNotFoundException {
+        Contrato contrato = contratoRepository.findByEmpresaEFornecedor(empresa, fornecedor).orElseThrow(AccountNotFoundException::new);
+
+        if(contrato.getStatus_contrato() != Status.ACEITO){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

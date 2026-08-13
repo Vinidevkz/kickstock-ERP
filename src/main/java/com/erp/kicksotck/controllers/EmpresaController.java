@@ -25,6 +25,7 @@ import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.AccountException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.UUID;
 
 @RestController
@@ -69,7 +70,7 @@ public class EmpresaController {
 
     //requisicão de lote (fazer solicitação)
     @PostMapping("/solicitacao")
-    public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO) throws AccountException {
+    public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO) throws AccountException, FileAlreadyExistsException {
 
         solicitacoesService.criarSolicitacao(solicitacaoDTO);
 
