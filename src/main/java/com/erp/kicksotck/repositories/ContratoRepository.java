@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,4 +23,7 @@ public interface ContratoRepository extends JpaRepository<Contrato, UUID> {
             @Param("empresa") Empresa empresa,
             @Param("fornecedor") Fornecedor fornecedor
     );
+
+    @Query("SELECT c FROM Contrato c WHERE c.id_empresa.id = :idEmpresa")
+    List<Contrato> findAllByIdEmpresa(@Param("idEmpresa") UUID idEmpresa);
 }

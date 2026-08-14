@@ -16,6 +16,7 @@ import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -73,6 +74,11 @@ public class ContratoService {
         }else{
             return true;
         }
+    }
+    
+    //pegar todos os contratos de uma determinada empresa
+    public List<Contrato> findAllByIdEmpresa(UUID idEmpresa) {
+        return contratoRepository.findAllByIdEmpresa(idEmpresa);
     }
 
 }

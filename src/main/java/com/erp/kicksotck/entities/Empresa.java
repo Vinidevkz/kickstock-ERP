@@ -1,5 +1,6 @@
 package com.erp.kicksotck.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
@@ -34,12 +35,16 @@ public class Empresa implements UserDetails {
     @Column(nullable = false, unique = true)
     private String cnpj_empresa;
     @OneToMany(mappedBy = "id_empresa")
+    @JsonIgnore
     private List<Contrato> contratos;
     @OneToMany(mappedBy = "id_empresa")
+    @JsonIgnore
     private List<Solicitacoes> solicitacoes;
     @OneToMany(mappedBy = "id_empresa")
+    @JsonIgnore
     private List<VendasECompras> vendasECompras;
     @OneToMany(mappedBy = "id_empresa")
+    @JsonIgnore
     private List<Lote> lotes;
     private LocalDateTime created_at;
 

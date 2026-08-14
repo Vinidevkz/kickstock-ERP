@@ -4,6 +4,7 @@ import com.erp.kicksotck.dtos.ContratoDTO;
 import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.dtos.LoginDTO;
 import com.erp.kicksotck.dtos.SolicitacaoDTO;
+import com.erp.kicksotck.entities.Contrato;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import com.erp.kicksotck.services.ContratoService;
@@ -15,10 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -26,6 +24,7 @@ import javax.security.auth.login.AccountException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.net.URI;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -76,4 +75,19 @@ public class EmpresaController {
 
         return ResponseEntity.ok().build();
     }
+
+    //pegar contrato com fornecedor
+    @GetMapping("/contrato/{idEmpresa}")
+    public ResponseEntity<List<Contrato>> getContrato(@PathVariable("idEmpresa") UUID idEmpresa) throws AccountNotFoundException {
+        Empresa empresa = empresaService.findById(idEmpresa);
+        List<Contrato> contratos = empresaService.getContratosEmpresa(idEmpresa);
+
+        return ResponseEntity.ok().body(contratos);
+    }
+
+
+    //listar lotes da empresa
+
+    //listar solicitacoes da empresa
+
 }

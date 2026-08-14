@@ -8,6 +8,7 @@ class KicksotckApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

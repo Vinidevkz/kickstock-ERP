@@ -2,6 +2,7 @@ package com.erp.kicksotck.services;
 
 import com.erp.kicksotck.config.TokenProvider;
 import com.erp.kicksotck.dtos.EmpresaDTO;
+import com.erp.kicksotck.entities.Contrato;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.entities.Fornecedor;
 import com.erp.kicksotck.repositories.EmpresaRepository;
@@ -16,6 +17,7 @@ import javax.management.InstanceAlreadyExistsException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -75,6 +77,20 @@ public class EmpresaService {
                 .orElseThrow(() -> new AccountNotFoundException("Fornecedor não encontrado para o ID: " + idFornecedor));
 
         contratoService.solicitacaoContrato(empresa, fornecedor, data_encerramento);
+    }
+
+    //
+
+    //get by id
+    public Empresa findById(UUID idEmpresa) throws AccountNotFoundException {
+        return empresaRepository.findById(idEmpresa).orElseThrow(AccountNotFoundException::new);
+    }
+
+    //ver todos os contratos de uma determinada empresa
+    public List<Contrato> getContratosEmpresa(UUID idEmpresa){
+        empresaRepository.findById(idEmpresa);
+
+        return contratoService.findAllByIdEmpresa(idEmpresa);
     }
 
 
