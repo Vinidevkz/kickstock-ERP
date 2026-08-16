@@ -7,24 +7,37 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 
 ## Funcionalidades e Requisitos Funcionais:
 
-🟢 A **Empresa** pode:
-<br> - Se cadastrar
-<br> - Logar
-<br> - Requisitar contratos
-<br> - Solicitar compra de lotes (ou agendar uma compra)
-<br> - Dar entrada no estoque
-<br> - Dar baixa no estoque
-<br> - Ver todos os contratos (pendentes e aceitos)
-<br> - Ver seus lotes
-<br> - Ver suas movimentações (entrada e saída no estoque)
-<br> - 
+### 🏢 A **Empresa** pode:
 
+* **Autenticação**
+    * Realizar cadastro na plataforma
+    * Efetuar login
 
-🔴 O **Fornecedor** pode:
+* **Gestão de Contratos e Compras**
+    * Requisitar novos contratos
+    * Solicitar compra de lotes (ou agendar compras)
+    * Visualizar contratos (pendentes e aceitos)
+
+* **Controle de Estoque**
+    * Dar entrada no estoque
+    * Dar baixa no estoque
+    * Visualizar seus lotes
+    * Acompanhar histórico de movimentações (entradas e saídas)
+
+---
+
+### 🏭 O **Fornecedor** pode:
+
+* **Gestão de Contratos e Pedidos**
+    * Aceitar ou recusar contratos solicitados
+    * Aceitar ou recusar solicitações de compra de lotes
+
+* **Controle de Produtos**
+    * Cadastrar novos lotes no estoque
 
 ## Tecnologias utilizadas e Ferramentas
 
-**Servidor:** Java 17, Spring Boot v4.1.0, PostgreSQL, Hibernate, Maven.  
+**Servidor:** Java 17, Spring Boot v4.1.0, PostgreSQL, Hibernate, Maven, JUnit, Mockito.  
 
 **Ferramentas:** Postman, Git, GitHub.
 
@@ -81,6 +94,24 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 ```
 
 #### Criar solicitação de Contrato:
+
+```http
+  POST /v1/empresa/requisicao_de_contrato
+```
+
+| Parametro | Tipo     | 
+| :-------- | :------- | 
+| `id_fornecedor` | `uuid` |  
+| `data_encerramento` | `localdate` |  
+
+
+- retorno:
+
+```
+    HttpStatus: 201 Created
+```
+
+#### Criar solicitação de compra de Lote:
 
 ```http
   POST /v1/empresa/requisicao_de_contrato
