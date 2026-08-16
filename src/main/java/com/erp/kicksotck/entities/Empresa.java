@@ -42,9 +42,6 @@ public class Empresa implements UserDetails {
     private List<Solicitacoes> solicitacoes;
     @OneToMany(mappedBy = "id_empresa")
     @JsonIgnore
-    private List<VendasECompras> vendasECompras;
-    @OneToMany(mappedBy = "id_empresa")
-    @JsonIgnore
     private List<Lote> lotes;
     private LocalDateTime created_at;
 

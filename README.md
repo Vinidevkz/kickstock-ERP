@@ -5,7 +5,22 @@
 
 O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o ciclo de suprimentos — desde a formalização de contratos até a movimentação real de produtos. Através do Kickstock, as empresas podem estabelecer vínculos contratuais com fornecedores, realizar agendamentos e solicitações de reserva de lotes e manter um controle preciso de entrada e baixa de estoque de forma automatizada.
 
+## Funcionalidades e Requisitos Funcionais:
 
+🟢 A **Empresa** pode:
+<br> - Se cadastrar
+<br> - Logar
+<br> - Requisitar contratos
+<br> - Solicitar compra de lotes (ou agendar uma compra)
+<br> - Dar entrada no estoque
+<br> - Dar baixa no estoque
+<br> - Ver todos os contratos (pendentes e aceitos)
+<br> - Ver seus lotes
+<br> - Ver suas movimentações (entrada e saída no estoque)
+<br> - 
+
+
+🔴 O **Fornecedor** pode:
 
 ## Tecnologias utilizadas e Ferramentas
 

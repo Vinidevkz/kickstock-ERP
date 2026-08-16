@@ -43,9 +43,7 @@ public class Fornecedor implements UserDetails {
     @OneToMany(mappedBy = "id_fornecedor")
     @JsonIgnore
     private List<Solicitacoes> solicitacoes;
-    @OneToMany(mappedBy = "id_fornecedor")
-    @JsonIgnore
-    private List<VendasECompras> vendasECompras;
+
     private LocalDateTime created_at;
 
     @Override
