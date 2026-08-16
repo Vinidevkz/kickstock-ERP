@@ -1,0 +1,27 @@
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: kickstock-db
+    environment:
+      POSTGRES_DB: kickstock
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: vini123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: kickstock-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/kickstock
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: vini123
+
+volumes:
+  postgres_data:
