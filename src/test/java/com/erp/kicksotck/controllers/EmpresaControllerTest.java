@@ -115,26 +115,42 @@ public class EmpresaControllerTest {
 
     }
 
-    //buscar contratos
+    //buscar contratos da empresa
     @Test
     @WithMockUser
     @DisplayName("Deve retornar Status OK 200 ao buscar os contratos de uma empresa válida.")
     void deveRetornar200AoBuscarContratosDaEmpresa() throws Exception{
 
         //arrange (preparação)
-        UUID idEmpresaTeste = UUID.randomUUID();
+        UUID id_empresa_teste = UUID.randomUUID();
 
         //service simulado retorna lista vazia sem dar erro
-        when(empresaService.getContratosEmpresa(idEmpresaTeste)).thenReturn(List.of());
+        when(empresaService.getContratosEmpresa(id_empresa_teste)).thenReturn(List.of());
 
         //act (ação) e assert (simular chamada http e validar a resposta)
         mockMvc.perform(
-                        get("/v1/empresa/contrato/{idEmpresa}", idEmpresaTeste)
+                        get("/v1/empresa/contrato/{idEmpresa}", id_empresa_teste)
                                 .with(user("usuarioTest").roles("USER"))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
     }
 
+    //buscar lotes da empresa
+    @Test
+    @WithMockUser
+    @DisplayName("Deve retornr Status OK 200 ao buscar os lotes de uma empresa válida.")
+    void deveRetornar200AoBuscarLotesDaEmpresa() throws Exception{
 
+        UUID id_empresa_teste = UUID.randomUUID();
+
+        when(empresaService.getLotesEmpresa(id_empresa_teste)).thenReturn(List.of());
+
+        mockMvc.perform(
+                get("/v1/empresa/lotes/{idEmpresa}", id_empresa_teste)
+                        .with(user("usuarioTest").roles("USER"))
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+
+    }
 }

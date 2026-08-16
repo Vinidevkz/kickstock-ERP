@@ -6,9 +6,11 @@ import com.erp.kicksotck.dtos.LoginDTO;
 import com.erp.kicksotck.dtos.SolicitacaoDTO;
 import com.erp.kicksotck.entities.Contrato;
 import com.erp.kicksotck.entities.Empresa;
+import com.erp.kicksotck.entities.Lote;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
 import com.erp.kicksotck.services.ContratoService;
 import com.erp.kicksotck.services.EmpresaService;
+import com.erp.kicksotck.services.LoteService;
 import com.erp.kicksotck.services.SolicitacoesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -76,18 +78,23 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    //pegar contrato com fornecedor
+    //pegar contratos com fornecedores
     @GetMapping("/contrato/{idEmpresa}")
     public ResponseEntity<List<Contrato>> getContrato(@PathVariable("idEmpresa") UUID idEmpresa) throws AccountNotFoundException {
-        Empresa empresa = empresaService.findById(idEmpresa);
         List<Contrato> contratos = empresaService.getContratosEmpresa(idEmpresa);
 
         return ResponseEntity.ok().body(contratos);
     }
 
-
     //listar lotes da empresa
+    @GetMapping("/lotes/{idEmpresa}")
+    public ResponseEntity<List<Lote>> getLotes(@PathVariable("idEmpresa") UUID idEmpresa) throws AccountNotFoundException{
+        List<Lote> lotes = empresaService.getLotesEmpresa(idEmpresa);
+
+        return ResponseEntity.ok().body(lotes);
+    }
 
     //listar solicitacoes da empresa
+
 
 }

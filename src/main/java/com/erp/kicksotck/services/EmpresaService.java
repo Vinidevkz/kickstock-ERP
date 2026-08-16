@@ -5,6 +5,7 @@ import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.entities.Contrato;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.entities.Fornecedor;
+import com.erp.kicksotck.entities.Lote;
 import com.erp.kicksotck.repositories.EmpresaRepository;
 import com.erp.kicksotck.repositories.FornecedorRepository;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
@@ -30,6 +31,7 @@ public class EmpresaService {
     private final TokenProvider tokenProvider;
     private final ContratoService contratoService;
     private final FornecedorRepository fornecedorRepository;
+    private final LoteService loteService;
 
     //register
     public EmpresaResponseDTO registerCompany(EmpresaDTO empresaDTO){
@@ -91,6 +93,13 @@ public class EmpresaService {
         empresaRepository.findById(idEmpresa);
 
         return contratoService.findAllByIdEmpresa(idEmpresa);
+    }
+
+    //ver todos os lotes de um determinada empresa
+    public List<Lote> getLotesEmpresa(UUID idEmpresa){
+        empresaRepository.findById(idEmpresa);
+
+        return loteService.getLotesEmpresa(idEmpresa);
     }
 
 
