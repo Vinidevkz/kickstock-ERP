@@ -10,18 +10,18 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 ### 🏢 A **Empresa** pode:
 
 * **Autenticação**
-    * Realizar cadastro na plataforma
-    * Efetuar login
+    * Realizar cadastro na plataforma ✅
+    * Efetuar login ✅
 
 * **Gestão de Contratos e Compras**
-    * Requisitar novos contratos
-    * Solicitar compra de lotes (ou agendar compras)
-    * Visualizar contratos (pendentes e aceitos)
+    * Requisitar novos contratos ✅
+    * Solicitar compra de lotes (ou agendar compras) ✅
+    * Visualizar contratos (pendentes e aceitos) ✅
 
 * **Controle de Estoque**
-    * Dar entrada no estoque
+    * Dar entrada no estoque     
     * Dar baixa no estoque
-    * Visualizar seus lotes
+    * Visualizar seus lotes 
     * Acompanhar histórico de movimentações (entradas e saídas)
 
 ---
@@ -29,8 +29,8 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 ### 🏭 O **Fornecedor** pode:
 
 * **Gestão de Contratos e Pedidos**
-    * Aceitar ou recusar contratos solicitados
-    * Aceitar ou recusar solicitações de compra de lotes
+    * Aceitar ou recusar contratos solicitados ✅
+    * Aceitar ou recusar solicitações de compra de lotes ✅
 
 * **Controle de Produtos**
     * Cadastrar novos lotes no estoque
@@ -108,13 +108,13 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 - retorno:
 
 ```
-    HttpStatus: 201 Created
+  HttpStatus: 201 Created
 ```
 
 #### Criar solicitação de compra de Lote:
 
 ```http
-  POST /v1/empresa/requisicao_de_contrato
+  POST /v1/empresa/solicitacao
 ```
 
 | Parametro | Tipo     | 
@@ -126,5 +126,79 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 - retorno:
 
 ```
-    HttpStatus: 201 Created
+  HttpStatus: 201 Created
+```
+
+#### Buscar contratos da empresa:
+
+```http
+  POST /v1/empresa/contrato/{idEmpresa}
+```
+
+| Parametro/Path | Tipo     | 
+|:---------------| :------- | 
+| `idEmpresa`    | `uuid` |
+
+
+- retorno:
+
+```
+    [
+        {
+          "id": "c920ad24-48b4-46ef-8a90-093fd307b42d",
+          "data_encerramento": "2030-12-30",
+          "status_contrato": "ACEITO",
+          "codigo_contrato": "a502Ioz3gZ",
+          "created_at": "2026-08-13T19:39:16.140461"
+        }
+    ]
+    ...
+```
+
+#### Buscar lotes da empresa:
+
+```http
+  POST /v1/empresa/lotes/{idEmpresa}
+```
+
+| Parametro/Path | Tipo     | 
+|:---------------| :------- | 
+| `idEmpresa`    | `uuid` |
+
+
+- retorno:
+
+```
+    [
+        {
+          "id": "c920ad24-48b4-46ef-8a90-093fd307b42d",
+          "data_encerramento": "2030-12-30",
+          "status_contrato": "ACEITO",
+          "codigo_contrato": "a502Ioz3gZ",
+          "created_at": "2026-08-13T19:39:16.140461"
+        }
+        ...
+    ]
+```
+
+#### Solicitação de Lote
+
+```http
+  POST /v1/empresa/solicitacao
+```
+
+| Parametro          | Tipo         | 
+|:-------------------|:-------------| 
+| `id_empresa`       | `uuid`       |
+| `id_fornecedor`    | `uuid`       |
+| `tipo_solicitacao` | `string`     |
+| `quantidade_lote`  | `integer`    |
+| `idsLotes`         | `list[uuid]` |
+| `data_compra`      | `localdate`  |
+
+
+- retorno:
+
+```
+  HttpStatus: 201 Created
 ```
