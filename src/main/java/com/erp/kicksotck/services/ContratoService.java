@@ -1,5 +1,6 @@
 package com.erp.kicksotck.services;
 
+import com.erp.kicksotck.dtos.RespostaFornecedorContratoDTO;
 import com.erp.kicksotck.entities.Contrato;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.entities.Fornecedor;
@@ -10,6 +11,7 @@ import com.erp.kicksotck.repositories.FornecedorRepository;
 import com.erp.kicksotck.tools.CodeBase64Generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -56,13 +58,17 @@ public class ContratoService {
     }
 
 
-    //solicitação do fornecedor
-    public void aceitarSolicitacao(UUID idContrato) throws AccountNotFoundException {
-        Contrato contrato = contratoRepository.findById(idContrato).orElseThrow(AccountNotFoundException::new);
+    //resposta a solicitacao feita pela empresa (fornecedor)
+    public HttpStatus respostaRequisicaoContrato(RespostaFornecedorContratoDTO respostaFornecedorContratoDTO) throws AccountNotFoundException {
+        Contrato contrato = contratoRepository.findById(respostaFornecedorContratoDTO.id_contrato()).orElseThrow(AccountNotFoundException::new);
 
-        contrato.setStatus_contrato(Status.ACEITO);
+        contrato.setStatus_contrato(Status.valueOf(respostaFornecedorContratoDTO.tipo_aceitacao()));
 
         contratoRepository.save(contrato);
+
+        HttpStatus status = (respostaFornecedorContratoDTO.tipo_aceitacao() == "ACEITO") ? HttpStatus.ACCEPTED : HttpStatus.NOT_ACCEPTABLE;
+
+        return status;
     }
 
     //verifica se a empresa já possui um contrato com o fornecedor

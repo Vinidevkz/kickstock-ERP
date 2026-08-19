@@ -1,5 +1,6 @@
 package com.erp.kicksotck.services;
 
+import com.erp.kicksotck.dtos.RespostaFornecedorSolicitacaoLoteDTO;
 import com.erp.kicksotck.dtos.SolicitacaoDTO;
 import com.erp.kicksotck.entities.Empresa;
 import com.erp.kicksotck.entities.Fornecedor;
@@ -13,6 +14,7 @@ import com.erp.kicksotck.repositories.LoteRepository;
 import com.erp.kicksotck.repositories.SolicitacaoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountException;
@@ -65,11 +67,15 @@ public class SolicitacoesService {
 
     }
 
-    public void aceitarSolicitacao(UUID id_solicitacao) throws AccountException {
+    public HttpStatus respostaSolicitacao(RespostaFornecedorSolicitacaoLoteDTO respostaFornecedorSolicitacaoLoteDTO) throws AccountException {
 
-        Solicitacoes solicitacao = solicitacaoRepository.findById(id_solicitacao).orElseThrow(AccountException::new);
+        Solicitacoes solicitacao = solicitacaoRepository.findById(respostaFornecedorSolicitacaoLoteDTO.id_solicitacao()).orElseThrow(AccountException::new);
 
-        solicitacao.setStatus(Status.ACEITO);
+        if(respostaFornecedorSolicitacaoLoteDTO.tipo_aceitacao() == "RECUSADO"){
+            solicitacao.setStatus(Status.RECUSADO);
+
+            return HttpStatus.NOT_ACCEPTABLE;
+        }
 
         if(solicitacao.getLotes() != null && !solicitacao.getLotes().isEmpty()){
             for(Lote lote : solicitacao.getLotes()){
@@ -77,7 +83,11 @@ public class SolicitacoesService {
             }
         }
 
+        solicitacao.setStatus(Status.ACEITO);
+
         solicitacaoRepository.save(solicitacao);
+
+        return HttpStatus.ACCEPTED;
 
     }
 
