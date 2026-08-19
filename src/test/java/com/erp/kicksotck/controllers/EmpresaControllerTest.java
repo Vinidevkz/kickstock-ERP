@@ -1,10 +1,16 @@
 package com.erp.kicksotck.controllers;
 
+import com.erp.kicksotck.dtos.ContratoDTO;
 import com.erp.kicksotck.dtos.EmpresaDTO;
 import com.erp.kicksotck.dtos.LoginDTO;
+import com.erp.kicksotck.dtos.SolicitacaoDTO;
 import com.erp.kicksotck.entities.Empresa;
+import com.erp.kicksotck.entities.Fornecedor;
+import com.erp.kicksotck.enums.TipoSolicitacao;
 import com.erp.kicksotck.responsedtos.EmpresaResponseDTO;
+import com.erp.kicksotck.services.ContratoService;
 import com.erp.kicksotck.services.EmpresaService;
+import com.erp.kicksotck.services.SolicitacoesService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,8 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +48,9 @@ public class EmpresaControllerTest {
 
     @MockitoBean
     private EmpresaService empresaService;
+
+    @MockitoBean
+    private SolicitacoesService solicitacoesService;
 
     //generate mock custom methods
     private EmpresaResponseDTO generateEmpresaResponseDTOMock(){
@@ -76,7 +87,7 @@ public class EmpresaControllerTest {
         return jsonBody;
     }
 
-    //register
+    //register(/v1/empresa/auth/register)
     @Test
     @DisplayName("Deve retornar o status 201 Created ao registrar uma nova empresa.")
     void deveRetornar201CreatedAoRegistrarUmaNovaEmpresa() throws Exception{
@@ -95,7 +106,7 @@ public class EmpresaControllerTest {
 
     }
 
-    //login
+    //login(/v1/empresa/auth/login)
     @Test
     @DisplayName("Deve retornar 200 OK ao buscar os dados do usuário no banco.")
     void deveRetornar200OkAoBuscarOsDadosDoUsuarioNoBanco() throws Exception{
@@ -115,7 +126,7 @@ public class EmpresaControllerTest {
 
     }
 
-    //buscar contratos da empresa
+    //buscar contratos da empresa(/v1/empresa/contrato/{idEmpresa})
     @Test
     @WithMockUser
     @DisplayName("Deve retornar Status OK 200 ao buscar os contratos de uma empresa válida.")
@@ -136,7 +147,7 @@ public class EmpresaControllerTest {
                 .andExpect(status().isOk());
     }
 
-    //buscar lotes da empresa
+    //buscar lotes da empresa(/v1/empresa/lotes/{idEmpresa})
     @Test
     @WithMockUser
     @DisplayName("Deve retornr Status OK 200 ao buscar os lotes de uma empresa válida.")
@@ -151,6 +162,51 @@ public class EmpresaControllerTest {
                         .with(user("usuarioTest").roles("USER"))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
+
+    }
+
+    //requisição de contrato(/)
+    @Test
+    @WithMockUser
+    @DisplayName("Deve retornar 201 CREATED ao criar uma requisição de contrato a um fornecedor.")
+    void deveRetornar201CreatedAoCriarUmaRequisicaoDeContrato() throws Exception{
+
+        ContratoDTO contratoDTO = new ContratoDTO(UUID.randomUUID(), LocalDate.now());
+
+        String jsonBody = objectMapper.writeValueAsString(contratoDTO);
+
+        mockMvc.perform(
+                post("/v1/empresa/requisicao_de_contrato")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody)
+                        .with(user("usuarioTest").roles("USER"))
+        ).andExpect(status().isCreated());
+
+    }
+
+    //solicitar compra de lote(/)
+    @Test
+    @WithMockUser
+    @DisplayName("Deve retornar 201 CREATED ao criar uma solicitação de compra de lote")
+    void deveRetornar201CreatedAoCriarUmaSolicitacaoDeCompraDeLote() throws Exception{
+
+        SolicitacaoDTO solicitacaoDTO = new SolicitacaoDTO(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                "COMPRA",
+                1,
+                List.of(UUID.randomUUID()),
+                LocalDate.now()
+        );
+
+        String jsonBody = objectMapper.writeValueAsString(solicitacaoDTO);
+
+        mockMvc.perform(
+                post("/v1/empresa/solicitacao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody)
+                        .with(user("usuarioTest").roles("USER"))
+        ).andExpect(status().isCreated());
 
     }
 }
