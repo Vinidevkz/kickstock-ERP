@@ -42,7 +42,6 @@ public class SolicitacoesService {
             throw new FileAlreadyExistsException("Contrato ainda em análise. Solicitações só são possíveis com contratos já em vigor.");
         }
 
-
         Solicitacoes solicitacao = new Solicitacoes();
         solicitacao.setId_empresa(empresa);
         solicitacao.setId_fornecedor(fornecedor);

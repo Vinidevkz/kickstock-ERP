@@ -72,10 +72,9 @@ public class EmpresaController {
     //requisicão de lote (fazer solicitação)
     @PostMapping("/solicitacao")
     public ResponseEntity<Void> solicitarLote(@RequestBody @Valid SolicitacaoDTO solicitacaoDTO) throws AccountException, FileAlreadyExistsException {
-
         solicitacoesService.criarSolicitacao(solicitacaoDTO);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //pegar contratos com fornecedores

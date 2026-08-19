@@ -1,6 +1,7 @@
 package com.erp.kicksotck.entities;
 
 import com.erp.kicksotck.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,11 @@ public class Contrato {
     private UUID id;
     @ManyToOne
     @JoinColumn(name = "id_empresa")
+    @JsonIgnore
     private Empresa id_empresa;
     @ManyToOne
     @JoinColumn(name = "id_fornecedor")
+    @JsonIgnore
     private Fornecedor id_fornecedor;
     private LocalDate data_encerramento;
     @Enumerated(EnumType.STRING)
