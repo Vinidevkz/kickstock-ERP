@@ -44,7 +44,7 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 
 ## Referência de API
 
-### Empresa
+### 🏢 Empresa
 
 #### Cadastro:
 
@@ -201,4 +201,23 @@ O foco do sistema é trazer agilidade, rastreabilidade e praticidade para todo o
 
 ```
   HttpStatus: 201 Created
+```
+
+### 🏭 Fornecedor
+
+#### Cadastro:
+
+```http
+  PUT /v1/fornecedor/devolutiva_requisicao_contrato
+```
+
+| Parametro        | Tipo     | 
+|:-----------------|:---------| 
+| `id_contrato`    | `uuid`   | 
+| `tipo_aceitacao` | `string` |
+
+- retorno:
+
+```
+  202 ACCEPTED
 ```
